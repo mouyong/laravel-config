@@ -23,7 +23,7 @@ class Config extends Model
         }
 
         if (in_array($this->item_type, ['array', 'json', 'object'])) {
-            return json_decode($this->item_value);
+            return json_decode($this->item_value, true);
         }
 
         throw new \RuntimeException("unknown key {$this->key} type {$this->item_type} of value {$this->item_value}");
@@ -75,7 +75,7 @@ class Config extends Model
 
     public static function setJsonValue(string $tag, string $key, bool $value = false)
     {
-        return static::addKeyValue($tag, $key, json_encode($value), 'json');
+        return static::addKeyValue($tag, $key, json_encode($value, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT), 'json');
     }
 
     public static function getItemValueByItemKey(string $itemKey)
