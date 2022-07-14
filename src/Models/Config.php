@@ -4,6 +4,7 @@ namespace MouYong\LaravelConfig\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 
 class Config extends Model
@@ -11,6 +12,14 @@ class Config extends Model
     const CACHE_KEY_PREFIX = 'item_key:';
     
     use HasFactory;
+    use SoftDeletes;
+
+    protected $casts = [
+        'is_multilingual' => 'bool',
+        'is_api' => 'bool',
+        'is_custom' => 'bool',
+        'is_enable' => 'bool',
+    ];
 
     public function getItemValueDescAttribute()
     {
