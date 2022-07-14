@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cache;
 class Config extends Model
 {
     const CACHE_KEY_PREFIX = 'item_key:';
-    
+
     use HasFactory;
     use SoftDeletes;
 
