@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use MouYong\LaravelConfig\Models\Config as ModelsConfig;
 
 class Config extends Model
 {
     const CACHE_KEY_PREFIX = 'item_key:';
+    const CACHE_KEY_MINUTES = 60;
 
     use HasFactory;
     use SoftDeletes;
@@ -90,7 +92,7 @@ class Config extends Model
     public static function getItemValueByItemKey(string $itemKey)
     {
         $cacheKey = Config::CACHE_KEY_PREFIX . $itemKey;
-        $cacheTime = now()->addMinutes(60);
+        $cacheTime = now()->addMinutes(ModelsConfig::CACHE_KEY_MINUTES);
 
         $config = Cache::remember($cacheKey, $cacheTime, function () use ($itemKey) {
             return static::query()->where('item_key', $itemKey)->first();
@@ -125,7 +127,7 @@ class Config extends Model
         $values = static::query()->whereIn('item_key', $itemKeys)->get();
         foreach ($itemKeys as $index => $itemKey) {
             $cacheKey = Config::CACHE_KEY_PREFIX . $itemKey;
-            $cacheTime = now()->addMinutes(60);
+            $cacheTime = now()->addMinutes(ModelsConfig::CACHE_KEY_MINUTES);
 
             $itemValue = Cache::remember($cacheKey, $cacheTime, function () use ($values, $itemKey) {
                 return $values->where('item_key', $itemKey)->first();
