@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 use MouYong\LaravelConfig\Models\Config;
 
 if (! function_exists('db_config')) {
-    function db_config($itemKey = null): string|array|Model
+    function db_config($itemKey = null): null|string|array|Model
     {
         $configModel = config('laravel-config.config_model', Config::class);
         
@@ -21,7 +21,7 @@ if (! function_exists('db_config')) {
 }
 
 if (! function_exists('db_config_central')) {
-    function db_config_central($itemKey = null): string|array|Model
+    function db_config_central($itemKey = null): null|string|array|Model
     {
         if (! function_exists('tenancy')) {
             return db_config($itemKey);
@@ -34,7 +34,7 @@ if (! function_exists('db_config_central')) {
 }
 
 if (! function_exists('central')) {
-    function central(callable $callable): string|array|Model
+    function central(callable $callable): null|string|array|Model
     {
         if (! function_exists('tenancy')) {
             return $callable();
